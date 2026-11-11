@@ -57,7 +57,7 @@ export default async function AdminOverview() {
         )}
       </div>
 
-      <div className="grid gap-10 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 [&>*]:min-w-0">
         <section>
           <div className="mb-3 flex items-baseline justify-between">
             <h2 className="text-lg font-bold">Lead terbaru</h2>

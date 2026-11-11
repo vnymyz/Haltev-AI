@@ -1,9 +1,15 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { dayTypeLabel, modeLabel } from "@/lib/format";
-import { CATEGORY_LABEL, CATEGORY_STYLE, dayLabel, type CalCell, type CalEvent } from "./lib";
+import {
+  CATEGORY_LABEL,
+  CATEGORY_STYLE,
+  dayLabel,
+  type CalCell,
+  type CalEvent,
+} from "./lib";
 import { SeatBar } from "./SeatBar";
 
 const WEEKDAYS = ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"];
@@ -26,8 +32,21 @@ export function BatchCalendar({
   legend: string[];
 }) {
   const todayCell = cells.find((c) => c.isToday && c.inMonth);
-  const [selected, setSelected] = useState<string | null>(todayCell?.date ?? null);
+  const [selected, setSelected] = useState<string | null>(
+    todayCell?.date ?? null,
+  );
   const selectedCell = cells.find((c) => c.date === selected) ?? null;
+  const listRef = useRef<HTMLElement>(null);
+
+  // On phones the day list sits below the grid, so bring it into view after a tap
+  function pick(date: string) {
+    setSelected(date);
+    if (window.matchMedia("(max-width: 639px)").matches) {
+      requestAnimationFrame(() =>
+        listRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }),
+      );
+    }
+  }
 
   const navBtn =
     "inline-flex size-10 items-center justify-center rounded-lg border border-ink-700 bg-ink-900 text-ink-300 transition-colors hover:border-ink-600 hover:text-ink-100";
@@ -35,31 +54,59 @@ export function BatchCalendar({
   return (
     <div>
       <div className="mb-3 flex flex-wrap items-center gap-3">
-        <h2 className="mr-auto font-display text-xl font-bold capitalize">{title}</h2>
-        <Link href={todayHref} className="min-h-10 rounded-lg border border-ink-700 bg-ink-900 px-3.5 text-sm leading-10 font-semibold text-ink-100 hover:border-ink-600">
-          Hari ini
-        </Link>
-        <Link href={prevHref} aria-label="Bulan sebelumnya" className={navBtn}>
-          <ChevronLeft size={18} />
-        </Link>
-        <Link href={nextHref} aria-label="Bulan berikutnya" className={navBtn}>
-          <ChevronRight size={18} />
-        </Link>
+        <h2 className="w-full font-display text-xl font-bold capitalize sm:mr-auto sm:w-auto">
+          {title}
+        </h2>
+        <div className="flex items-center gap-2">
+          <Link
+            href={todayHref}
+            className="min-h-10 rounded-lg border border-ink-700 bg-ink-900 px-3.5 text-sm leading-10 font-semibold text-ink-100 hover:border-ink-600"
+          >
+            Hari ini
+          </Link>
+          <Link
+            href={prevHref}
+            aria-label="Bulan sebelumnya"
+            className={navBtn}
+          >
+            <ChevronLeft size={18} />
+          </Link>
+          <Link
+            href={nextHref}
+            aria-label="Bulan berikutnya"
+            className={navBtn}
+          >
+            <ChevronRight size={18} />
+          </Link>
+        </div>
       </div>
 
       <div className="mb-3 flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-ink-300">
         {legend.map((c) => (
           <span key={c} className="inline-flex items-center gap-1.5">
-            <span className={`size-2.5 rounded-sm ${(CATEGORY_STYLE[c] ?? CATEGORY_STYLE.fundamentals).dot}`} />
+            <span
+              className={`size-2.5 rounded-sm ${(CATEGORY_STYLE[c] ?? CATEGORY_STYLE.fundamentals).dot}`}
+            />
             {CATEGORY_LABEL[c] ?? c}
           </span>
         ))}
       </div>
 
-      <div role="grid" aria-label={title} className="rounded-xl border border-ink-700 bg-ink-900">
-        <div role="row" className="grid grid-cols-7 border-b border-ink-700 bg-ink-850">
+      <div
+        role="grid"
+        aria-label={title}
+        className="rounded-xl border border-ink-700 bg-ink-900"
+      >
+        <div
+          role="row"
+          className="grid grid-cols-7 border-b border-ink-700 bg-ink-850"
+        >
           {WEEKDAYS.map((d) => (
-            <div key={d} role="columnheader" className="px-2 py-2 text-center text-xs font-semibold text-ink-300">
+            <div
+              key={d}
+              role="columnheader"
+              className="px-2 py-2 text-center text-xs font-semibold text-ink-300"
+            >
               {d}
             </div>
           ))}
@@ -75,15 +122,21 @@ export function BatchCalendar({
               <div
                 key={c.date}
                 role="gridcell"
-                onClick={() => setSelected(c.date)}
+                onClick={() => pick(c.date)}
                 className={`relative min-h-[4.5rem] cursor-pointer border-r border-b border-ink-700 p-1 transition-colors duration-150 sm:min-h-[7.5rem] sm:p-1.5 ${
-                  c.inMonth ? "bg-ink-900 hover:bg-ink-850" : "bg-ink-950 text-ink-400"
+                  c.inMonth
+                    ? "bg-ink-900 hover:bg-ink-850"
+                    : "bg-ink-950 text-ink-400"
                 } ${col === 6 ? "border-r-0" : ""} ${row === 5 ? "border-b-0" : ""} ${isSel ? "z-10 ring-2 ring-volt-500 ring-inset" : ""}`}
               >
                 <div className="mb-1 flex justify-end sm:justify-start">
                   <span
                     className={`inline-flex size-6 items-center justify-center rounded-full text-xs font-semibold ${
-                      c.isToday ? "bg-lp-navy text-white" : c.inMonth ? "text-ink-100" : "text-ink-400"
+                      c.isToday
+                        ? "bg-lp-navy text-white"
+                        : c.inMonth
+                          ? "text-ink-100"
+                          : "text-ink-400"
                     }`}
                   >
                     {c.day}
@@ -112,7 +165,10 @@ export function BatchCalendar({
                 {/* Phone: dots, tap the day for the list */}
                 <div className="flex flex-wrap gap-0.5 sm:hidden">
                   {c.events.slice(0, 6).map((ev) => (
-                    <span key={ev.id} className={`size-1.5 rounded-full ${(CATEGORY_STYLE[ev.cat] ?? CATEGORY_STYLE.fundamentals).dot}`} />
+                    <span
+                      key={ev.id}
+                      className={`size-1.5 rounded-full ${(CATEGORY_STYLE[ev.cat] ?? CATEGORY_STYLE.fundamentals).dot}`}
+                    />
                   ))}
                 </div>
               </div>
@@ -122,16 +178,23 @@ export function BatchCalendar({
       </div>
 
       {/* Full list for the chosen day (also the way to see details on a touch screen) */}
-      <section className="mt-6" aria-live="polite">
+      <section ref={listRef} className="mt-6 scroll-mt-20" aria-live="polite">
         {selectedCell ? (
           <>
-            <h3 className="mb-3 text-lg font-bold capitalize">{dayLabel(selectedCell.date)}</h3>
+            <h3 className="mb-3 text-lg font-bold capitalize">
+              {dayLabel(selectedCell.date)}
+            </h3>
             {selectedCell.events.length === 0 ? (
-              <p className="rounded-xl border border-ink-700 bg-ink-900 p-4 text-[15px] text-ink-300">Tidak ada kelas pada hari ini.</p>
+              <p className="rounded-xl border border-ink-700 bg-ink-900 p-4 text-[15px] text-ink-300">
+                Tidak ada kelas pada hari ini.
+              </p>
             ) : (
               <ul className="grid gap-3 md:grid-cols-2">
                 {selectedCell.events.map((ev) => (
-                  <li key={ev.id} className="rounded-xl border border-ink-700 bg-ink-900 p-4">
+                  <li
+                    key={ev.id}
+                    className="rounded-xl border border-ink-700 bg-ink-900 p-4"
+                  >
                     <Details ev={ev} />
                   </li>
                 ))}
@@ -139,7 +202,9 @@ export function BatchCalendar({
             )}
           </>
         ) : (
-          <p className="text-sm text-ink-400">Pilih sebuah hari untuk melihat semua kelasnya.</p>
+          <p className="text-sm text-ink-400">
+            Pilih sebuah hari untuk melihat semua kelasnya.
+          </p>
         )}
       </section>
     </div>

@@ -3,14 +3,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { ExternalLink, House, LogOut, Menu, X } from "lucide-react";
+import { CalendarDays, ExternalLink, House, LayoutDashboard, LogOut, Menu, ReceiptText, Users, X } from "lucide-react";
 import { SmoothScroll } from "@/components/ui/SmoothScroll";
 
 const NAV = [
-  { href: "/admin", label: "Ringkasan" },
-  { href: "/admin/leads", label: "Lead" },
-  { href: "/admin/payments", label: "Pembayaran" },
-  { href: "/admin/batches", label: "Batch dan tutor" },
+  { href: "/admin", label: "Ringkasan", short: "Ringkasan", icon: LayoutDashboard },
+  { href: "/admin/leads", label: "Lead", short: "Lead", icon: Users },
+  { href: "/admin/payments", label: "Pembayaran", short: "Bayar", icon: ReceiptText },
+  { href: "/admin/batches", label: "Batch dan tutor", short: "Batch", icon: CalendarDays },
 ] as const;
 
 export function AdminShell({
@@ -97,20 +97,48 @@ export function AdminShell({
             className="relative rounded-lg p-2 text-ink-300 hover:bg-ink-800"
           >
             {open ? <X size={22} /> : <Menu size={22} />}
-            {!open && pending > 0 && <span className="absolute top-1.5 right-1.5 size-2.5 rounded-full bg-volt-500" />}
           </button>
         </div>
         {open && (
-          <div className="animate-rise space-y-3 border-t border-ink-700 p-3">
-            {links}
-            {bottom}
-          </div>
+          <div className="animate-rise border-t border-ink-700 p-3">{bottom}</div>
         )}
       </header>
 
-      <main className="min-w-0 flex-1 px-4 py-6 md:px-10 md:py-10">
+      <main className="min-w-0 flex-1 px-4 pt-6 pb-[calc(6rem+env(safe-area-inset-bottom))] md:px-10 md:py-10">
         <div className="mx-auto max-w-5xl">{children}</div>
       </main>
+
+      {/* Phones: the four pages sit in a bottom tab bar within thumb reach */}
+      <nav
+        aria-label="Menu admin"
+        className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-4 border-t border-ink-700 bg-ink-900/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden"
+      >
+        {NAV.map((n) => {
+          const active = isActive(n.href);
+          const Icon = n.icon;
+          return (
+            <Link
+              key={n.href}
+              href={n.href}
+              aria-current={active ? "page" : undefined}
+              className={`relative flex min-h-16 flex-col items-center justify-center gap-1 text-[11px] font-semibold transition-colors ${
+                active ? "text-volt-500" : "text-ink-400 hover:text-ink-100"
+              }`}
+            >
+              {active && <span className="absolute top-0 h-0.5 w-10 rounded-full bg-volt-500" />}
+              <span className="relative">
+                <Icon size={21} strokeWidth={active ? 2.4 : 2} />
+                {n.href === "/admin/payments" && pending > 0 && (
+                  <span className="absolute -top-1.5 -right-2.5 min-w-4 rounded-full bg-volt-500 px-1 text-center text-[10px] leading-4 font-bold text-white">
+                    {pending}
+                  </span>
+                )}
+              </span>
+              {n.short}
+            </Link>
+          );
+        })}
+      </nav>
     </div>
   );
 }

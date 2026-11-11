@@ -17,28 +17,47 @@ The password comes from `ADMIN_PASSWORD` in `.env.local`. Change it before deplo
 
 ## Features
 
-| For customers (chat page `/`) | For admin/sales (`/admin`) |
+### Landing page (`/`)
+- Light, human-made design (Unbounded + Be Vietnam Pro, Haltev blue palette, orange only on the "Chat dengan Halvi" buttons) with the Halvi mascot video on a gradient hero.
+- Typing headline, program board (bootcamp, courses, kids, office, fundamentals, private) with prices, a replay of how Halvi works, and a final call to action. Rows and chips open the chat with that question already sent.
+- Sticky navbar with ID / EN switch, a "Chat dengan Halvi" button, and an **Admin / Tamu** chip that shows who is logged in (admin links to the dashboard).
+- Smooth scrolling (Lenis), reading-progress line, back-to-top button, fade-to-reveal sections, a thin top progress bar while pages load, and a looping hex loader for anything that loads.
+- Server-rendered in the visitor's language, WebP images, H.264/WebM mascot video. Lighthouse: about 83 mobile, 99 desktop (production build).
+
+### Customer chat (`/chat`)
+| Feature | Details |
 |---|---|
-| Chat page in the style of ChatGPT, with chat history | Overview: leads, registrations, payments waiting for verification, verified revenue |
-| Answers about Haltev from the knowledge base, in Indonesian or English | Leads list with status, plus a WhatsApp link |
-| Lead form shown inside the chat | Payment proofs: screenshot, AI check, and **Approve / Reject** buttons |
-| Batch picker showing schedule, tutor, and seats left (max 5 per class) | All invoices, with a PDF link for each |
-| Invoice you can view or download as a PDF | Batch and tutor overview |
-| QRIS you can view, zoom, or download | |
-| Payment proof upload (📎 button or upload card) | |
+| ChatGPT-style chat | History sidebar (open/close, "Chat baru", "Beranda"), saved per browser |
+| Answers from the knowledge base | Indonesian or English, follows the device language and the ID / EN switch |
+| Lead form in the chat | Name, contact, and preferences, saved for the sales team |
+| Batch picker | Schedule, tutor, and seats left (max 5 per class), booked atomically |
+| Invoice | Number, amount, due date; view in the browser or download as PDF |
+| QRIS | Opens in a popup, can be zoomed and downloaded; bank transfer details shown too |
+| Payment proof upload | 📎 button or upload card; Gemini vision checks amount and merchant |
+| Status check | Ask "status pembayaran saya?" and Halvi reports the invoice status |
+| Search | Sidebar box filters chats by title; Ctrl/Cmd+K finds text inside the open chat with highlights |
+| Jump to latest | Round arrow appears when you scroll up; new replies do not drag you down |
+| Guest card | Bottom of the sidebar: "Tamu #XXXX" (anonymous browser id). A logged-in admin sees "Admin" with a Dashboard link and a log-out button instead |
+| WhatsApp help | Green WhatsApp button for talking to a human (in the sidebar on phones) |
 
-**Language & devices:**
-- Indonesian by default. The app follows the device language (an English phone/browser gets English) and has an **ID / EN** switch in the header that is remembered. Halvi also replies in whatever language the customer types.
-- Fully responsive: phones (from 360px), tablets, and desktop. Includes a slide-out history drawer on mobile, safe-area support for notched iPhones, and no zoom-on-focus in iOS Safari.
+### Admin dashboard (`/admin`, password protected)
+| Page | What it does |
+|---|---|
+| Ringkasan | What needs doing now: proofs waiting, latest leads and invoices, verified revenue |
+| Leads | Search by name, phone, or email; status filter chips; change status in place; WhatsApp link per lead |
+| Pembayaran | Review queue: screenshot, Gemini check (amount, recipient, notes), **Verifikasi lunas** / **Tolak**; all invoices with PDF links |
+| Batch & Tutor | Calendar view (hover for details) or list view with numbers, filters, and seat bars |
+| Navigation | Side rail on desktop, top bar on phones, buttons back to the landing page and the chat |
 
-**Chat tools:** a search icon (or Ctrl/Cmd+K) opens find-in-conversation with highlights and next/previous; the sidebar has a box that filters chats by title; a round arrow jumps back to the latest message when you have scrolled up (new replies do not drag you down while you read).
+### Language and devices
+- Indonesian by default. The app follows the device language (an English phone gets English) and has an **ID / EN** switch that is remembered. Halvi also replies in whatever language the customer types.
+- Responsive from 360px: phones, tablets, and desktop. The sidebar becomes a slide-out drawer, inputs avoid iOS zoom-on-focus, and safe-area insets protect notched phones. The landing navbar shrinks to icons on small screens.
 
-**Guests:** there is no login yet. Every visitor is a guest, shown as a guest card at the bottom of the sidebar ("Tamu #C6A8", from an anonymous browser id). Its menu has a disabled "Sign in / Sign up" placeholder for later.
-
-**Rules built into Halvi:**
+### Rules built into Halvi
 - Halvi only talks about Haltev. Other requests (writing code, making images, homework, and so on) get a friendly refusal: *"Haha, that's nice! Tapi Halvi cuma bisa bantu soal Haltev ya, Kak…"*
 - When a customer says "sudah bayar" or "payment done", Halvi **asks for a screenshot**. Halvi never marks a payment as paid. Only the admin can, after checking the proof.
-- When the AI is unavailable (free quota used up, rate limit, outage), the chat shows *"Sorry, sepertinya Halvi lagi offline sekarang 😴 Please come again later!"* with a retry button.
+- Prices always come from the database, never from the model.
+- When the AI is unavailable (free quota used up, rate limit, outage), the chat shows *"Sorry, sepertinya Halvi lagi offline sekarang 😴 Please come again later!"* with a retry button. Halvi tries several free Gemini models before giving up.
 
 ---
 
@@ -48,6 +67,7 @@ The password comes from `ADMIN_PASSWORD` in `.env.local`. Change it before deplo
 - **Vercel AI SDK v7** + **Google Gemini** (free tier, default `gemini-3.5-flash`)
 - **Supabase**: Postgres database + Storage for payment screenshots
 - **@react-pdf/renderer** for invoice PDFs
+- **Lenis** for smooth scrolling, **lucide-react** icons
 
 ---
 
@@ -143,12 +163,13 @@ app/
   api/invoice/[id]/pdf/     invoice PDF
   api/sessions/             chat history
   invoice/[id]/             invoice web page
-  admin/                    admin dashboard (password protected)
+  admin/                    admin dashboard (overview, leads, payments, batches; password protected)
   admin-login/
 components/
   landing/                  landing sections (hero + mascot plate, manifesto, program board, chat replay, footer)
-  chat/                     chat UI (sidebar, messages, composer)
+  chat/                     chat UI (sidebar, guest/admin card, messages, composer, find bar)
   cards/                    in-chat cards (form, batches, invoice, QRIS, upload)
+  ui/                       shared pieces (hex loader, smooth scroll, navigation progress bar)
 lib/
   ai/                       persona, system prompt, tools, proof checker
   db/                       Supabase client + queries

@@ -65,7 +65,7 @@ export function Nav({ nav, lang, isAdmin = false }: { nav: LandingCopy["nav"]; l
           <a href="#cara-kerja" className={`rounded hover:text-lp-navy ${focusRing}`}>{nav.how}</a>
         </nav>
 
-        <div className="flex items-center gap-3 justify-self-end">
+        <div className="flex items-center gap-2 justify-self-end sm:gap-3">
           <div className="relative flex rounded-lg border border-lp-line bg-white p-0.5 text-xs font-bold" role="group" aria-label="Language">
             {pending && <HexLoader size={16} className="absolute top-1/2 right-full mr-2 -translate-y-1/2 text-lp-royal" label="Loading" />}
             {(["id", "en"] as const).map((l) => (
@@ -73,7 +73,7 @@ export function Nav({ nav, lang, isAdmin = false }: { nav: LandingCopy["nav"]; l
                 key={l}
                 onClick={() => onLang(l)}
                 aria-pressed={current === l}
-                className={`min-w-9 rounded-md px-2 py-1.5 uppercase transition-colors ${focusRing} ${
+                className={`min-w-8 rounded-md px-1.5 py-1.5 uppercase sm:min-w-9 sm:px-2 transition-colors ${focusRing} ${
                   current === l ? "bg-lp-navy text-white" : "text-lp-muted hover:text-lp-navy"
                 }`}
               >
@@ -88,13 +88,14 @@ export function Nav({ nav, lang, isAdmin = false }: { nav: LandingCopy["nav"]; l
           {isAdmin ? (
             <Link
               href="/admin"
-              className={`flex items-center gap-1.5 rounded-lg border border-lp-royal/30 bg-lp-sky/60 px-2.5 py-1.5 text-xs font-bold text-lp-royal transition-colors hover:bg-lp-sky ${focusRing}`}
+              aria-label={nav.admin}
+              className={`flex items-center gap-1.5 rounded-lg border border-lp-royal/30 bg-lp-sky/60 px-2 py-1.5 sm:px-2.5 text-xs font-bold text-lp-royal transition-colors hover:bg-lp-sky ${focusRing}`}
             >
-              <ShieldCheck size={15} aria-hidden /> {nav.admin}
+              <ShieldCheck size={15} aria-hidden /> <span className="hidden sm:inline">{nav.admin}</span>
             </Link>
           ) : (
-            <span className="flex items-center gap-1.5 rounded-lg border border-lp-line bg-white px-2.5 py-1.5 text-xs font-bold text-lp-muted">
-              <CircleUserRound size={15} aria-hidden /> {nav.guest}
+            <span aria-label={nav.guest} className="flex items-center gap-1.5 rounded-lg border border-lp-line bg-white px-2 py-1.5 text-xs font-bold text-lp-muted">
+              <CircleUserRound size={15} aria-hidden /> <span className="hidden sm:inline">{nav.guest}</span>
             </span>
           )}
         </div>

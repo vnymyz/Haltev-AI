@@ -70,3 +70,7 @@ Thumbs.db
 
 # originals that are no longer used by the site (large source media)
 /unused-stuff/
+
+# Codex leftovers
+.superpowers/
+superpowers/
