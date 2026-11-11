@@ -4,6 +4,15 @@ Halvi is a demo AI assistant for **Haltev IT Learning Center** (PT Haltekom Medi
 
 > This is a **demo** for presentations, not a production system.
 
+## Demo login
+
+| Page | URL | Password |
+|---|---|---|
+| Admin dashboard | http://localhost:3000/admin | `haltev-admin-demo` |
+| Customer chat | http://localhost:3000/chat | none (visitors are guests) |
+
+The password comes from `ADMIN_PASSWORD` in `.env.local`. Change it before deploying or sharing the repo.
+
 ---
 
 ## Features
@@ -21,6 +30,10 @@ Halvi is a demo AI assistant for **Haltev IT Learning Center** (PT Haltekom Medi
 **Language & devices:**
 - Indonesian by default. The app follows the device language (an English phone/browser gets English) and has an **ID / EN** switch in the header that is remembered. Halvi also replies in whatever language the customer types.
 - Fully responsive: phones (from 360px), tablets, and desktop. Includes a slide-out history drawer on mobile, safe-area support for notched iPhones, and no zoom-on-focus in iOS Safari.
+
+**Chat tools:** a search icon (or Ctrl/Cmd+K) opens find-in-conversation with highlights and next/previous; the sidebar has a box that filters chats by title; a round arrow jumps back to the latest message when you have scrolled up (new replies do not drag you down while you read).
+
+**Guests:** there is no login yet. Every visitor is a guest, shown as a guest card at the bottom of the sidebar ("Tamu #C6A8", from an anonymous browser id). Its menu has a disabled "Sign in / Sign up" placeholder for later.
 
 **Rules built into Halvi:**
 - Halvi only talks about Haltev. Other requests (writing code, making images, homework, and so on) get a friendly refusal: *"Haha, that's nice! Tapi Halvi cuma bisa bantu soal Haltev ya, Kak…"*
@@ -63,7 +76,7 @@ cp .env.local.example .env.local
 | `SUPABASE_URL` | Supabase → Project Settings → API → Project URL |
 | `SUPABASE_SECRET_KEY` | Supabase → Project Settings → API Keys → **Secret key** (`sb_secret_…`) |
 | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Supabase → API Keys → Publishable key (not used by the app yet) |
-| `ADMIN_PASSWORD` | Any password you choose for `/admin` |
+| `ADMIN_PASSWORD` | Password for `/admin`. The demo uses `haltev-admin-demo`; pick your own for anything real |
 
 > ⚠️ Never commit `.env.local` or share the secret key. Both are already in `.gitignore`.
 
@@ -83,8 +96,11 @@ Halvi's knowledge comes from `docs/haltev_knowledge_base.md`. Make sure the file
 ```bash
 npm run dev
 ```
-- Chat: http://localhost:3000
-- Admin: http://localhost:3000/admin (log in with `ADMIN_PASSWORD`)
+- Landing page: http://localhost:3000 (intro to Haltev, mascot, "Chat dengan Halvi" buttons)
+- Chat: http://localhost:3000/chat
+- Admin: http://localhost:3000/admin
+  - **Demo password: `haltev-admin-demo`** (the value of `ADMIN_PASSWORD` in the local `.env.local`)
+  - This is a demo credential. Change `ADMIN_PASSWORD` before the app is deployed or the repo is shared.
 
 Other commands:
 ```bash
@@ -97,7 +113,7 @@ npm run lint
 
 ## How to use it (demo script)
 
-**As a customer** on http://localhost:3000:
+**As a customer** on http://localhost:3000 (landing) then http://localhost:3000/chat:
 1. Click a suggestion such as **🎓 Bootcamp**, or ask "Berapa harga bootcamp website?"
 2. Say "Saya mau daftar". Halvi shows the **form**. Fill it in and click *Kirim data*.
 3. Halvi shows the **batch picker**. Click a batch. For courses, Halvi asks *Regular* or *Intensive*.
@@ -105,7 +121,7 @@ npm run lint
 5. Type "sudah bayar". Halvi asks for the screenshot and shows the upload card.
 6. Upload a screenshot (PNG/JPG, max 5 MB). Halvi replies that the admin will verify it.
 
-**As admin** on http://localhost:3000/admin:
+**As admin** on http://localhost:3000/admin (demo password: `haltev-admin-demo`):
 1. **Pembayaran**: see the screenshot and the AI check (nominal ✓/✗, penerima Haltev ✓/✗, notes).
 2. Click **Verifikasi lunas** or **Tolak**.
 3. Back in the chat, ask "status pembayaran saya?" Halvi now reports the new status.
@@ -119,7 +135,8 @@ npm run lint
 
 ```
 app/
-  page.tsx                  chat page
+  (site)/page.tsx           landing page (fonts: Unbounded + Be Vietnam Pro, scoped to this route group)
+  chat/page.tsx             chat page
   api/chat/                 AI chat (Gemini + tools)
   api/leads/                save lead form
   api/upload-proof/         store screenshot + AI check
@@ -129,6 +146,7 @@ app/
   admin/                    admin dashboard (password protected)
   admin-login/
 components/
+  landing/                  landing sections (hero + mascot plate, manifesto, program board, chat replay, footer)
   chat/                     chat UI (sidebar, messages, composer)
   cards/                    in-chat cards (form, batches, invoice, QRIS, upload)
 lib/
@@ -141,6 +159,14 @@ docs/                       knowledge base (gitignored)
 public/                     logo + QRIS image
 ```
 
+## Performance
+Measure with a production build, not `npm run dev` (dev mode ships unminified React and scores far lower):
+```bash
+npm run build
+npm run start
+```
+Then run Lighthouse on http://localhost:3000. On the landing page this scored about 83 on the mobile preset and 99 on desktop. What keeps it fast: the landing page is a server component (language comes from a cookie or the browser header), typing effects are CSS only, the hero poster is a preloaded image and the video starts after the page has loaded, markdown libraries load only inside the chat, and the icons are small.
+
 ## Customizing
 
 | What | Where |
@@ -150,7 +176,9 @@ public/                     logo + QRIS image
 | QRIS / bank / contact info | `lib/constants.ts` |
 | Haltev facts | `docs/haltev_knowledge_base.md` |
 | Prices, batches, tutors | Supabase Table Editor (`program_prices`, `batches`, `tutors`) or `data/03_seed.sql` |
-| Colors | `app/globals.css` (`@theme`) |
+| Landing copy (ID + EN) and program board rows | `lib/landing-i18n.ts` |
+| Colors | `app/globals.css` (`@theme`; light tokens `paper`, `lp-*`, `signal`; chat and admin use `.theme-light`, which remaps the old `ink-*` and `volt-*` classes) |
+| Design rules and palette | `docs/design-brief.md` |
 | AI model | `GEMINI_MODEL` in `.env.local` |
 
 ## Troubleshooting

@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
-import { CheckCircle2, ClipboardList, Loader2 } from "lucide-react";
+import { CheckCircle2, ClipboardList } from "lucide-react";
+import { HexLoader } from "@/components/ui/HexLoader";
 import { Card } from "./Card";
 import { useChatActions } from "@/components/chat/chat-context";
 import type { FormOutput } from "@/lib/ai/ui-types";
@@ -10,7 +11,7 @@ const TIMES = ["09:00–12:00", "13:00–16:00", "15:30–18:00", "18:30–21:00
 
 // text-base on phones prevents iOS Safari from zooming into inputs
 const input =
-  "w-full rounded-lg border border-ink-700 bg-ink-950/60 px-3 py-2.5 text-base text-white placeholder:text-ink-400 focus:border-volt-500/70 focus:outline-none sm:py-2 sm:text-sm";
+  "w-full rounded-lg border border-ink-700 bg-ink-950/60 px-3 py-2.5 text-base text-ink-100 placeholder:text-ink-400 focus:border-volt-500/70 focus:outline-none sm:py-2 sm:text-sm";
 const label = "mb-1 block text-xs font-semibold text-ink-300";
 
 export function LeadFormCard({ data, active }: { data: FormOutput; active: boolean }) {
@@ -134,9 +135,9 @@ export function LeadFormCard({ data, active }: { data: FormOutput; active: boole
         {err && <p className="text-sm text-red-300 sm:col-span-2">{err}</p>}
         <button
           disabled={state === "saving"}
-          className="flex min-h-11 items-center justify-center gap-2 rounded-xl bg-volt-500 px-4 py-2.5 text-sm font-bold text-ink-950 transition hover:bg-volt-400 disabled:opacity-60 sm:col-span-2"
+          className="flex min-h-11 items-center justify-center gap-2 rounded-xl bg-volt-500 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-volt-400 disabled:opacity-60 sm:col-span-2"
         >
-          {state === "saving" && <Loader2 size={15} className="animate-spin" />} {t.submit}
+          {state === "saving" && <HexLoader size={17} />} {t.submit}
         </button>
         <p className="text-[11px] text-ink-400 sm:col-span-2">{t.privacy}</p>
       </form>

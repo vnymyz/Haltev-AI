@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { ArrowUp, Loader2, Paperclip } from "lucide-react";
+import { ArrowUp, Paperclip } from "lucide-react";
+import { HexLoader } from "@/components/ui/HexLoader";
 import { findLatestInvoice, useChatActions } from "./chat-context";
 import { uploadProof } from "./upload";
 
@@ -45,7 +46,7 @@ export function Composer({ value, onChange, onSend }: Props) {
             e.preventDefault();
             onSend();
           }}
-          className="flex items-end gap-1.5 rounded-2xl border border-ink-700 bg-ink-900 p-1.5 transition focus-within:border-volt-500/60 focus-within:glow sm:gap-2 sm:p-2"
+          className="flex items-end gap-1.5 rounded-2xl border border-ink-700 bg-ink-900 p-1.5 transition focus-within:border-volt-500/70 focus-within:shadow-[0_0_0_3px_rgba(30,99,224,0.14)] sm:gap-2 sm:p-2"
         >
           <button
             type="button"
@@ -55,7 +56,7 @@ export function Composer({ value, onChange, onSend }: Props) {
             disabled={uploading}
             className="rounded-xl p-2.5 text-ink-400 transition hover:bg-ink-800 hover:text-volt-300 disabled:opacity-50"
           >
-            {uploading ? <Loader2 size={20} className="animate-spin" /> : <Paperclip size={20} />}
+            {uploading ? <HexLoader size={22} className="text-volt-500" label="Uploading" /> : <Paperclip size={20} />}
           </button>
           <input
             ref={fileRef}
@@ -83,12 +84,12 @@ export function Composer({ value, onChange, onSend }: Props) {
             rows={1}
             enterKeyHint="send"
             placeholder={t.placeholder}
-            className="max-h-36 min-h-[44px] flex-1 resize-none bg-transparent px-1 py-2.5 text-base text-white placeholder:text-ink-400 focus:outline-none sm:text-[15px]"
+            className="max-h-36 min-h-[44px] flex-1 resize-none bg-transparent px-1 py-2.5 text-base text-ink-100 placeholder:text-ink-400 focus:outline-none sm:text-[15px]"
           />
           <button
             type="submit"
             disabled={busy || !value.trim()}
-            className="rounded-xl bg-volt-500 p-2.5 text-ink-950 transition hover:bg-volt-400 disabled:bg-ink-700 disabled:text-ink-400"
+            className="rounded-xl bg-volt-500 p-2.5 text-white transition hover:bg-volt-400 disabled:bg-ink-700 disabled:text-ink-400"
             aria-label={t.send}
           >
             <ArrowUp size={20} strokeWidth={2.5} />

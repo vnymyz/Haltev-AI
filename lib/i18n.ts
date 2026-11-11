@@ -19,44 +19,69 @@ export function detectLang(): Lang {
 
 const id = {
   newChat: "Chat baru",
+  home: "Beranda",
+  qrisOpen: "Ketuk untuk membuka QRIS",
+  adminLink: "Dashboard",
+  adminName: "Admin",
+  adminSub: "Masuk sebagai admin",
+  adminNote: "Kamu sedang masuk sebagai admin Haltev.",
+  logout: "Keluar",
+  typing: "Halvi sedang menjawab",
+  loadingChat: "Membuka percakapan",
+  filterPlaceholder: "Cari chat",
+  filterClear: "Hapus pencarian",
+  noMatch: "Tidak ada chat dengan kata itu.",
+  findOpen: "Cari di percakapan",
+  findPlaceholder: "Cari di percakapan ini",
+  findPrev: "Hasil sebelumnya",
+  findNext: "Hasil berikutnya",
+  findClose: "Tutup pencarian",
+  findNone: "Tidak ketemu",
+  findCount: (i: number, n: number) => `${i} dari ${n}`,
+  jumpLatest: "Ke pesan terbaru",
   history: "Riwayat",
   noHistory: "Belum ada percakapan.",
   untitled: "Percakapan baru",
   deleteChat: "Hapus chat",
   needHelp: "Butuh bantuan?",
   waButton: "Chat admin via WhatsApp",
+  guestName: "Tamu",
+  guestSub: "Masuk sebagai tamu",
+  guestId: "ID tamu",
+  guestNote: "Riwayat chat tersimpan di browser ini. Akun belum tersedia.",
+  signIn: "Masuk / Daftar",
+  soon: "Segera",
   waPrefill: "Halo admin Haltev, saya butuh bantuan.",
-  online: "Haltev AI Assistant · Online",
+  online: "Online",
   openMenu: "Buka menu",
   closeMenu: "Tutup menu",
   // welcome
   welcomeTitle: "Selamat datang di Haltev",
-  welcomeSub: "Halvi · Admin virtual Haltev IT Learning Center",
+  welcomeSub: "Halvi, admin virtual Haltev IT Learning Center",
   // Halvi's first message. Static (no AI call, always the same). Markdown.
-  welcome: `Halo Kak, selamat datang di **Haltev IT Learning Center**! 👋
-Aku **Halvi**, admin virtual Haltev 🦊
+  welcome: `Halo Kak, aku **Halvi**, admin virtual Haltev IT Learning Center. 🦊
 
-Sedikit tentang kami: Haltev adalah lembaga pelatihan **IT & digital berbasis AI**. Kami bantu siapa saja, dari yang belum punya background IT sampai yang sudah bekerja, untuk naik level lewat **Bootcamp**, **Kursus**, **Kelas Private**, sampai **Coding for Kids**.
+Haltev itu tempat belajar IT dan digital berbasis AI, dari yang belum pernah ngoding sampai yang sudah kerja. Ada **Bootcamp**, **Kursus**, **Kelas Private**, dan **Coding for Kids**.
 
-Kelasnya kecil (3–5 orang), bisa online/offline, ada sertifikasi BNSP, bisa cicilan, dan lulusan bootcamp disalurkan ke 250+ hiring partner kami.
+Kelasnya kecil, **3–5 orang**, bisa online atau offline. Ada sertifikasi BNSP, biayanya bisa dicicil, dan lulusan bootcamp dibantu cari kerja lewat 250+ perusahaan mitra.
 
-Biar Halvi bisa kasih rekomendasi yang pas, boleh cerita dulu ya, Kak: **Kakak lagi cari kelas untuk tujuan apa?** 😊`,
+Kakak lagi cari kelas buat apa?`,
   suggestions: [
-    { label: "💼 Mau pindah karier ke IT", text: "Saya mau pindah karier ke IT, tapi belum punya background IT. Program apa yang cocok?" },
-    { label: "📈 Upgrade skill untuk kerja", text: "Saya sudah bekerja dan mau upgrade skill. Ada kursus apa yang cocok?" },
-    { label: "🎓 Mahasiswa / pelajar", text: "Saya mahasiswa, mau belajar coding untuk bantu kuliah dan persiapan kerja. Ada kelas apa?" },
-    { label: "🧒 Kelas coding untuk anak", text: "Saya cari kelas coding untuk anak saya. Ada kelas untuk anak SD atau SMP?" },
-    { label: "🏢 Training untuk perusahaan", text: "Saya mau cari training untuk karyawan di perusahaan saya." },
-    { label: "📅 Lihat jadwal & harga", text: "Boleh lihat jadwal dan harga kelas yang tersedia?" },
+    { label: "Mau pindah karier ke IT", text: "Saya mau pindah karier ke IT, tapi belum punya background IT. Program apa yang cocok?" },
+    { label: "Upgrade skill untuk kerja", text: "Saya sudah bekerja dan mau upgrade skill. Ada kursus apa yang cocok?" },
+    { label: "Mahasiswa atau pelajar", text: "Saya mahasiswa, mau belajar coding untuk bantu kuliah dan persiapan kerja. Ada kelas apa?" },
+    { label: "Kelas coding untuk anak", text: "Saya cari kelas coding untuk anak saya. Ada kelas untuk anak SD atau SMP?" },
+    { label: "Training untuk perusahaan", text: "Saya mau cari training untuk karyawan di perusahaan saya." },
+    { label: "Lihat jadwal dan harga", text: "Boleh lihat jadwal dan harga kelas yang tersedia?" },
   ],
   // composer
   placeholder: "Tanya Halvi soal kelas, harga, jadwal…",
   send: "Kirim",
   uploadProof: "Upload bukti pembayaran",
-  noInvoiceYet: "Belum ada invoice di chat ini. Daftar kelas dulu ya, nanti Halvi buatkan invoicenya 😊",
+  noInvoiceYet: "Belum ada invoice di chat ini. Daftar kelas dulu ya, nanti Halvi buatkan invoicenya.",
   disclaimer: "Halvi bisa keliru. Jadwal & harga final dikonfirmasi admin Haltev.",
   // errors
-  offline: `Sorry, sepertinya Halvi lagi offline sekarang 😴 Coba lagi nanti ya, Kak! Kalau butuh cepat, chat admin Haltev di WhatsApp ${HALTEV.whatsapp}.`,
+  offline: `Maaf, Halvi lagi offline. Coba lagi sebentar lagi ya, Kak. Kalau butuh cepat, chat admin Haltev di WhatsApp ${HALTEV.whatsapp}.`,
   retry: "Coba lagi",
   // tool progress
   pending: {
@@ -71,7 +96,7 @@ Biar Halvi bisa kasih rekomendasi yang pas, boleh cerita dulu ya, Kak: **Kakak l
   wait: "Sebentar…",
   // batch picker
   schedule: "Jadwal",
-  flexible: "Jadwal fleksibel — diatur bersama admin sesuai waktu Kakak.",
+  flexible: "Jadwal fleksibel. Diatur bersama admin, sesuai waktu Kakak.",
   seats: (n: number) => (n <= 0 ? "Penuh" : `${n} kursi`),
   pickHint: "Ketuk batch untuk memilih. Kelas semi-private, maksimal 5 orang.",
   pickedMsg: (batch: string, desc: string, program: string, id: number) =>
@@ -122,7 +147,7 @@ Biar Halvi bisa kasih rekomendasi yang pas, boleh cerita dulu ya, Kak: **Kakak l
   // proof
   proofTitle: "Upload bukti pembayaran",
   alreadyPaid: "Invoice sudah lunas.",
-  proofSent: "Bukti terkirim — menunggu verifikasi admin.",
+  proofSent: "Bukti terkirim. Admin akan mengeceknya.",
   uploading: "Mengupload & mengecek…",
   pickFile: "Ketuk untuk pilih screenshot (PNG/JPG, maks 5 MB)",
   proofMsg: (n: string) => `📎 Saya sudah upload bukti pembayaran untuk invoice ${n}.`,
@@ -130,7 +155,7 @@ Biar Halvi bisa kasih rekomendasi yang pas, boleh cerita dulu ya, Kak: **Kakak l
   status: {
     unpaid: "Menunggu pembayaran",
     pending_verification: "Menunggu verifikasi admin",
-    paid: "Lunas — terverifikasi",
+    paid: "Lunas, sudah diverifikasi",
     rejected: "Bukti ditolak",
   },
 };
@@ -139,40 +164,65 @@ export type Dict = typeof id;
 
 const en: Dict = {
   newChat: "New chat",
+  home: "Home",
+  qrisOpen: "Tap to open the QRIS",
+  adminLink: "Dashboard",
+  adminName: "Admin",
+  adminSub: "Logged in as admin",
+  adminNote: "You are logged in as a Haltev admin.",
+  logout: "Log out",
+  typing: "Halvi is answering",
+  loadingChat: "Opening conversation",
+  filterPlaceholder: "Search chats",
+  filterClear: "Clear search",
+  noMatch: "No chats match that.",
+  findOpen: "Search this conversation",
+  findPlaceholder: "Search this conversation",
+  findPrev: "Previous result",
+  findNext: "Next result",
+  findClose: "Close search",
+  findNone: "No matches",
+  findCount: (i: number, n: number) => `${i} of ${n}`,
+  jumpLatest: "Jump to latest",
   history: "History",
   noHistory: "No conversations yet.",
   untitled: "New conversation",
   deleteChat: "Delete chat",
   needHelp: "Need help?",
   waButton: "Chat with admin on WhatsApp",
+  guestName: "Guest",
+  guestSub: "Logged in as guest",
+  guestId: "Guest ID",
+  guestNote: "Your chat history is saved in this browser. Accounts are not available yet.",
+  signIn: "Sign in / Sign up",
+  soon: "Soon",
   waPrefill: "Hi Haltev admin, I need some help.",
-  online: "Haltev AI Assistant · Online",
+  online: "Online",
   openMenu: "Open menu",
   closeMenu: "Close menu",
   welcomeTitle: "Welcome to Haltev",
-  welcomeSub: "Halvi · Virtual admin of Haltev IT Learning Center",
-  welcome: `Hi, welcome to **Haltev IT Learning Center**! 👋
-I'm **Halvi**, Haltev's virtual admin 🦊
+  welcomeSub: "Halvi, virtual admin of Haltev IT Learning Center",
+  welcome: `Hi, I'm **Halvi**, the virtual admin of Haltev IT Learning Center. 🦊
 
-A little about us: Haltev is an **AI-powered IT & digital skills training center**. We help everyone, from people with no IT background to working professionals, level up through **Bootcamps**, **Courses**, **Private Classes**, and even **Coding for Kids**.
+Haltev teaches IT and digital skills with an AI-based curriculum, for people who have never written code and for people already working. We run **Bootcamps**, **Courses**, **Private Classes**, and **Coding for Kids**.
 
-Classes are small (3–5 students), online or offline, with BNSP certification and installment options, and bootcamp graduates are connected to our 250+ hiring partners.
+Classes are small, **3–5 students**, online or offline. There is BNSP certification, fees can be paid in installments, and bootcamp graduates get help finding a job through 250+ partner companies.
 
-So I can recommend the right program, tell me a bit about yourself: **what are you looking to learn, and for what goal?** 😊`,
+What are you looking to learn, and why?`,
   suggestions: [
-    { label: "💼 Switch careers into IT", text: "I want to switch careers into IT, but I have no IT background. Which program fits me?" },
-    { label: "📈 Upskill for my job", text: "I'm already working and want to upskill. Which course would suit me?" },
-    { label: "🎓 Student", text: "I'm a university student and want to learn coding to help with my studies and prepare for work. What classes do you have?" },
-    { label: "🧒 Coding classes for kids", text: "I'm looking for a coding class for my child. Do you have classes for elementary or junior high students?" },
-    { label: "🏢 Corporate training", text: "I'm looking for training for the employees at my company." },
-    { label: "📅 Schedules & prices", text: "Can I see the available class schedules and prices?" },
+    { label: "Switch careers into IT", text: "I want to switch careers into IT, but I have no IT background. Which program fits me?" },
+    { label: "Upskill for my job", text: "I'm already working and want to upskill. Which course would suit me?" },
+    { label: "I am a student", text: "I'm a university student and want to learn coding to help with my studies and prepare for work. What classes do you have?" },
+    { label: "Coding classes for kids", text: "I'm looking for a coding class for my child. Do you have classes for elementary or junior high students?" },
+    { label: "Training for my company", text: "I'm looking for training for the employees at my company." },
+    { label: "Schedules and prices", text: "Can I see the available class schedules and prices?" },
   ],
   placeholder: "Ask Halvi about classes, prices, schedules…",
   send: "Send",
   uploadProof: "Upload payment proof",
-  noInvoiceYet: "There's no invoice in this chat yet. Register for a class first and Halvi will create one 😊",
+  noInvoiceYet: "There's no invoice in this chat yet. Register for a class first and Halvi will create one.",
   disclaimer: "Halvi can make mistakes. Final schedules & prices are confirmed by Haltev admin.",
-  offline: `Sorry, I think Halvi is not online at the moment 😴 Please come again later! For urgent help, WhatsApp Haltev admin at ${HALTEV.whatsapp}.`,
+  offline: `Sorry, I think Halvi is not online at the moment. Please come again later. For urgent help, WhatsApp Haltev admin at ${HALTEV.whatsapp}.`,
   retry: "Try again",
   pending: {
     "tool-search_programs": "Searching programs…",
@@ -185,7 +235,7 @@ So I can recommend the right program, tell me a bit about yourself: **what are y
   },
   wait: "One moment…",
   schedule: "Schedule",
-  flexible: "Flexible schedule — arranged with our admin to fit your time.",
+  flexible: "Flexible schedule. Our admin arranges it around your time.",
   seats: (n: number) => (n <= 0 ? "Full" : `${n} seat${n === 1 ? "" : "s"} left`),
   pickHint: "Tap a batch to choose it. Semi-private classes, max 5 students.",
   pickedMsg: (batch: string, desc: string, program: string, id: number) =>
@@ -233,14 +283,14 @@ So I can recommend the right program, tell me a bit about yourself: **what are y
   close: "Close",
   proofTitle: "Upload payment proof",
   alreadyPaid: "This invoice is already paid.",
-  proofSent: "Proof sent — waiting for admin verification.",
+  proofSent: "Proof sent. The admin will check it.",
   uploading: "Uploading & checking…",
   pickFile: "Tap to choose a screenshot (PNG/JPG, max 5 MB)",
   proofMsg: (n: string) => `📎 I've uploaded the payment proof for invoice ${n}.`,
   status: {
     unpaid: "Waiting for payment",
     pending_verification: "Waiting for admin verification",
-    paid: "Paid — verified",
+    paid: "Paid, verified",
     rejected: "Proof rejected",
   },
 };

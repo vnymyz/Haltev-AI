@@ -67,3 +67,6 @@ Thumbs.db
 
 # dummy payment screenshots for local testing only (never deploy)
 /public/test-payments/
+
+# originals that are no longer used by the site (large source media)
+/unused-stuff/

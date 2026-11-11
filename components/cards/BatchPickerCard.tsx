@@ -55,7 +55,7 @@ export function BatchPickerCard({ data, active }: { data: BatchesOutput; active:
               }`}
             >
               <div className="flex items-center justify-between gap-2">
-                <span className="font-bold text-white">
+                <span className="font-bold text-ink-100">
                   Batch {b.batch_no ?? "–"} <span className="font-medium text-volt-300">· {dayType(b.day_type)}</span>
                 </span>
                 {chosen && <Check size={16} className="shrink-0 text-volt-300" />}
@@ -68,7 +68,7 @@ export function BatchPickerCard({ data, active }: { data: BatchesOutput; active:
               </div>
               <div className="mt-2.5 flex flex-wrap items-center justify-between gap-2">
                 <SeatDots left={b.seats_left} cap={b.capacity} t={t} />
-                {price && data.program.category !== "course" && <span className="text-xs font-semibold text-white">{rupiah(price)}</span>}
+                {price && data.program.category !== "course" && <span className="text-xs font-semibold text-ink-100">{rupiah(price)}</span>}
               </div>
             </button>
           );
@@ -97,7 +97,7 @@ function PriceRow({ prices }: { prices: BatchesOutput["prices"] }) {
     <div className="flex flex-wrap gap-2">
       {prices.map((p) => (
         <div key={p.package} className="rounded-lg border border-ink-700 bg-ink-950/50 px-2.5 py-1.5 text-xs">
-          <span className="capitalize text-ink-400">{p.package}</span> <span className="font-bold text-white">{rupiah(p.price)}</span>
+          <span className="capitalize text-ink-400">{p.package}</span> <span className="font-bold text-ink-100">{rupiah(p.price)}</span>
           {p.normal_price && <span className="ml-1 text-ink-400 line-through">{rupiah(p.normal_price)}</span>}
         </div>
       ))}

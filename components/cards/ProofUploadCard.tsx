@@ -1,6 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
-import { CheckCircle2, ImageUp, Loader2 } from "lucide-react";
+import { CheckCircle2, ImageUp } from "lucide-react";
+import { HexLoader } from "@/components/ui/HexLoader";
 import { Card } from "./Card";
 import { useChatActions } from "@/components/chat/chat-context";
 import { uploadProof } from "@/components/chat/upload";
@@ -33,7 +34,7 @@ export function ProofUploadCard({ data }: { data: ProofOutput }) {
   return (
     <Card title={t.proofTitle} icon={<ImageUp size={15} className="text-amber-300" />} accent="amber">
       <p className="text-sm text-ink-300">
-        Invoice <b className="break-all text-white">{inv.number}</b> · {rupiah(inv.amount)}
+        Invoice <b className="break-all text-ink-100">{inv.number}</b> · {rupiah(inv.amount)}
       </p>
       {state === "done" ? (
         <p className="mt-3 flex items-center gap-2 text-sm text-emerald-300">
@@ -43,9 +44,9 @@ export function ProofUploadCard({ data }: { data: ProofOutput }) {
         <button
           onClick={() => ref.current?.click()}
           disabled={state === "uploading"}
-          className="mt-3 flex w-full flex-col items-center gap-2 rounded-xl border-2 border-dashed border-ink-600 px-4 py-6 text-center text-sm text-ink-300 transition hover:border-amber-300/60 hover:text-white disabled:opacity-60"
+          className="mt-3 flex w-full flex-col items-center gap-2 rounded-xl border-2 border-dashed border-ink-600 px-4 py-6 text-center text-sm text-ink-300 transition hover:border-amber-300/60 hover:text-ink-100 disabled:opacity-60"
         >
-          {state === "uploading" ? <Loader2 className="animate-spin" /> : <ImageUp />}
+          {state === "uploading" ? <HexLoader size={28} className="text-volt-500" /> : <ImageUp />}
           {state === "uploading" ? t.uploading : t.pickFile}
         </button>
       )}

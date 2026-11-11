@@ -2,6 +2,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getInvoiceDetail } from "@/lib/db/queries";
 import { HALTEV } from "@/lib/constants";
+import { SmoothScroll } from "@/components/ui/SmoothScroll";
 import { dayTypeLabel, hhmm, modeLabel, rupiah, shortDate } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -51,10 +52,11 @@ export default async function InvoicePage({
 
   return (
     <div lang={lang} className="min-h-dvh bg-slate-100 px-3 py-4 text-slate-900 sm:px-4 sm:py-8">
+      <SmoothScroll />
       <div className="mx-auto max-w-2xl overflow-hidden rounded-2xl bg-white shadow-xl">
         <div className="flex flex-wrap items-center justify-between gap-3 bg-[#071431] px-4 py-4 text-white sm:px-6 sm:py-5">
           <div className="flex items-center gap-3">
-            <Image src={HALTEV.logo} alt="Haltev" width={44} height={44} />
+            <Image src={HALTEV.logoWeb} alt="Haltev" width={44} height={44} />
             <div>
               <div className="font-extrabold">{HALTEV.brand}</div>
               <div className="text-xs text-slate-300">{HALTEV.legalName}</div>
@@ -106,7 +108,7 @@ export default async function InvoicePage({
 
           {inv.status !== "paid" && (
             <div className="grid gap-5 rounded-xl border border-cyan-300 p-4 sm:grid-cols-[auto_1fr]">
-              <Image src={HALTEV.qris.image} alt="QRIS Haltev" width={180} height={255} className="mx-auto h-auto w-44" />
+              <Image src={HALTEV.qris.imageWeb} alt="QRIS Haltev" width={180} height={255} className="mx-auto h-auto w-44" />
               <div className="space-y-1 text-sm">
                 <div className="font-bold">{t.scan}</div>
                 <div>{HALTEV.qris.merchant} · NMID {HALTEV.qris.nmid}</div>

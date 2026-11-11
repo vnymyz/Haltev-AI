@@ -12,13 +12,15 @@ export const HALTEV = {
   qris: {
     merchant: "HALTEV IT LEARNING CENTER",
     nmid: "ID2023298329152",
-    image: "/Qris-Haltev.png",
+    image: "/Qris-Haltev.png", // PNG: invoice PDF and the download button
+    imageWeb: "/Qris-Haltev.webp", // WebP: what is shown on screen
   },
-  logo: "/Logo-Haltev.png",
+  logo: "/Logo-Haltev.png", // PNG: invoice PDF
+  logoWeb: "/Logo-Haltev.webp",
 } as const;
 
 export const BOT = {
   name: "Halvi",
   tagline: "Haltev AI Learning Buddy",
-  avatar: "/Logo-Haltev.png",
+  avatar: "/Logo-Haltev.webp",
 } as const;

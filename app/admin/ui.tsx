@@ -1,40 +1,41 @@
-export function Table({ head, children }: { head: string[]; children: React.ReactNode }) {
+// Small shared pieces for the admin pages. Status is a colored dot plus a word.
+
+export const STATUS: Record<string, { label: string; dot: string }> = {
+  // leads
+  new: { label: "Baru", dot: "bg-volt-500" },
+  contacted: { label: "Sudah dihubungi", dot: "bg-amber-400" },
+  registered: { label: "Terdaftar", dot: "bg-amber-400" },
+  paid: { label: "Lunas", dot: "bg-emerald-400" },
+  lost: { label: "Batal", dot: "bg-ink-600" },
+  // invoices
+  unpaid: { label: "Belum dibayar", dot: "bg-amber-400" },
+  pending_verification: { label: "Menunggu dicek", dot: "bg-volt-500" },
+  rejected: { label: "Ditolak", dot: "bg-lp-red" },
+  // proofs
+  pending: { label: "Menunggu dicek", dot: "bg-volt-500" },
+  approved: { label: "Disetujui", dot: "bg-emerald-400" },
+};
+
+export function StatusDot({ v }: { v: string }) {
+  const s = STATUS[v] ?? { label: v.replace(/_/g, " "), dot: "bg-ink-400" };
   return (
-    <div className="overflow-x-auto rounded-xl border border-ink-800">
-      <table className="w-full min-w-[720px] text-sm">
-        <thead className="bg-ink-900 text-left text-xs uppercase tracking-wider text-ink-400">
-          <tr>{head.map((h) => <th key={h} className="px-3 py-2.5 font-semibold">{h}</th>)}</tr>
-        </thead>
-        <tbody className="divide-y divide-ink-800 text-ink-100">{children}</tbody>
-      </table>
+    <span className="inline-flex items-center gap-1.5 text-sm whitespace-nowrap">
+      <span className={`size-2 rounded-full ${s.dot}`} aria-hidden="true" />
+      {s.label}
+    </span>
+  );
+}
+
+export function PageTitle({ children, sub }: { children: React.ReactNode; sub?: React.ReactNode }) {
+  return (
+    <div className="mb-8">
+      <h1 className="font-display text-2xl font-extrabold tracking-[-0.02em] sm:text-3xl">{children}</h1>
+      {sub && <p className="mt-2 max-w-[60ch] text-[15px] text-ink-300">{sub}</p>}
     </div>
   );
 }
 
-export const td = "px-3 py-2.5 align-top";
-
-const BADGE: Record<string, string> = {
-  new: "bg-volt-500/15 text-volt-300",
-  contacted: "bg-indigo-400/15 text-indigo-200",
-  registered: "bg-amber-400/15 text-amber-200",
-  paid: "bg-emerald-400/15 text-emerald-200",
-  lost: "bg-ink-700 text-ink-300",
-  unpaid: "bg-amber-400/15 text-amber-200",
-  pending_verification: "bg-volt-500/15 text-volt-300",
-  rejected: "bg-red-400/15 text-red-200",
-  pending: "bg-volt-500/15 text-volt-300",
-  approved: "bg-emerald-400/15 text-emerald-200",
-  pending_payment: "bg-amber-400/15 text-amber-200",
-  confirmed: "bg-emerald-400/15 text-emerald-200",
-};
-
-export function Badge({ v }: { v: string }) {
-  return <span className={`whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-semibold ${BADGE[v] ?? "bg-ink-700"}`}>{v.replace(/_/g, " ")}</span>;
-}
-
-export function H1({ children }: { children: React.ReactNode }) {
-  return <h1 className="mb-4 text-2xl font-extrabold tracking-tight text-white">{children}</h1>;
-}
-
 export const when = (d: string) =>
-  new Date(d).toLocaleString("id-ID", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit", timeZone: "Asia/Jakarta" });
+  new Date(d).toLocaleString("id-ID", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit", timeZone: "Asia/Jakarta" });
+
+export const waLink = (p: string | null) => (p ? `https://wa.me/${p.replace(/^0/, "62").replace(/\D/g, "")}` : null);

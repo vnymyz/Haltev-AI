@@ -16,10 +16,10 @@ export function HelpButton({ t }: { t: Dict }) {
       // Phones/tablets use the header icon + drawer button instead (see ChatApp).
       className="group fixed right-6 bottom-[calc(1.5rem+env(safe-area-inset-bottom))] z-30 hidden items-center gap-2 lg:flex"
     >
-      <span className="rounded-full border border-emerald-400/30 bg-ink-900/95 px-3 py-1.5 text-xs font-semibold text-emerald-200 shadow-lg backdrop-blur transition group-hover:border-emerald-400/60 group-hover:text-white">
+      <span className="rounded-full border border-emerald-400/30 bg-ink-900/95 px-3 py-1.5 text-xs font-semibold text-emerald-200 shadow-lg backdrop-blur transition group-hover:border-emerald-400/60 group-hover:text-ink-100">
         {t.needHelp}
       </span>
-      <span className="relative flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-black/40 transition group-hover:scale-105 group-active:scale-95">
+      <span className="relative flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-lp-navy/25 transition group-hover:scale-105 group-active:scale-95">
         <span className="absolute inset-0 animate-ping rounded-full bg-[#25D366]/40 [animation-duration:2.5s]" />
         <WhatsAppIcon />
       </span>

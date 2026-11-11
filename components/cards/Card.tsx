@@ -9,14 +9,15 @@ export function Card({
   children: React.ReactNode;
   accent?: "volt" | "amber" | "emerald";
 }) {
-  const ring = {
-    volt: "border-volt-500/35 from-volt-500/10",
-    amber: "border-amber-400/35 from-amber-400/10",
-    emerald: "border-emerald-400/35 from-emerald-400/10",
+  // Only the left edge carries the accent: it tells you what kind of card this is.
+  const edge = {
+    volt: "border-l-volt-500",
+    amber: "border-l-amber-300",
+    emerald: "border-l-emerald-400",
   }[accent];
   return (
-    <div className={`overflow-hidden rounded-2xl border bg-gradient-to-b to-ink-900 ${ring} animate-rise`}>
-      <div className="flex items-center gap-2 border-b border-ink-700/60 px-4 py-2.5 text-[13px] font-bold uppercase tracking-[0.08em] text-ink-100">
+    <div className={`overflow-hidden rounded-xl border border-ink-700 border-l-4 bg-ink-900 ${edge} animate-rise`}>
+      <div className="flex items-center gap-2 border-b border-ink-700/70 px-4 py-2.5 text-sm font-bold text-ink-100">
         {icon}
         {title}
       </div>
